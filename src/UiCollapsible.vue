@@ -123,6 +123,7 @@ export default {
     methods: {
         onEnter() {
             this.$emit('open');
+            if (this.$parent.$options._componentTag === 'ui-collapsible-group') this.$parent.opened(this)
         },
         onAfterEnter() {
             this.$emit('opened');
@@ -137,12 +138,11 @@ export default {
             this.$emit('closed');
         },
 
-        toggleCollapsible() {
+        toggleCollapsible(isOpen) {
             if (this.disabled) {
                 return;
             }
-
-            this.isOpen = !this.isOpen;
+            this.isOpen = typeof isOpen !== 'boolean' ? !this.isOpen : isOpen;
         },
 
         refreshHeight() {
