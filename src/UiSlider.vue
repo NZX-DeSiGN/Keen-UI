@@ -51,6 +51,7 @@
             <div class="ui-slider__track-fill" :style="fillStyle"></div>
 
             <div class="ui-slider__thumb-wrapper">
+                <div class="ui-slider__interval" v-if="infoInterval && infoInterval.begin >= 0 && infoInterval.end" :style="intervalStyle"></div>
                 <div class="ui-slider__thumb" ref="thumb" :style="thumbStyle">
                     <div class="ui-slider__marker" v-if="showMarker">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
@@ -101,6 +102,10 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        },
+        infoInterval: {
+            type: Object,
+            default: () => {}
         }
     },
 
@@ -136,6 +141,13 @@ export default {
         fillStyle() {
             const property = this.vertical ? 'scaleY' : 'scaleX';
             return { transform: property + '(' + (this.localValue / 100) + ')' };
+        },
+
+        intervalStyle() {
+            return {
+                left: this.infoInterval.begin + '%',
+                width: (this.infoInterval.end - this.infoInterval.begin) + '%'
+            };
         },
 
         thumbStyle() {
@@ -558,6 +570,15 @@ $ui-slider-marker-size                      : rem-calc(36px);
         transition: transform $ui-track-focus-ring-transition-duration ease;
         width: $ui-track-focus-ring-size;
     }
+}
+
+.ui-slider__interval {
+    position: absolute;
+    top: calc(50% - (#{$ui-slider-track-size} / 2));
+    height: $ui-slider-track-size;
+    background: $brand-accent-color;
+    left: 0;
+    min-width: 5px;
 }
 
 .ui-slider__marker {
