@@ -163,12 +163,6 @@ export default {
         // Called externally from UiTab
         registerTab(tab) {
             this.tabs.push(tab);
-
-            // Select the tab if there's no tab selected (i.e. the tab is the only tab)
-            // or the tab's selected prop is true
-            if (this.activeTabId === null || tab.selected) {
-                this.activeTabId = tab.id;
-            }
         },
 
         // Called externally from UiTab
